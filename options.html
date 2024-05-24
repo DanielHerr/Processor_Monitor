@@ -1,0 +1,52 @@
+
+<!-- This code is the intellectual property of Daniel Stephen Herr. -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Processor Monitor Options</title>
+    <style>
+      label { margin-left: 20px }
+    </style>
+  </head>
+  <body>
+    <p><a href="https://chrome.google.com/webstore/detail/kbilomlpmhhhaimaigidhnjijhiajbam" target="_blank"><button>Add the floating panel companion app</button></a></p>
+    <p><button id="flags" class="cros">Enable an icon on the bottom shelf</button></p>
+    <p><a href="https://chrome.google.com/webstore/support/ihfhbddglfpbodgoalhmljdneofejjnd#feature" target="_blank"><button>Feedback</button></a>
+    <a href="https://chrome.google.com/webstore/support/ihfhbddglfpbodgoalhmljdneofejjnd#bug" target="_blank"><button>Bugs</button></a>
+    <p>Your total processor amount is <span id="processors"></span>.</p>
+    <form>
+      <p>Select components to be shown on <span class="cros">browser</span> icon click:
+        <label class="cros"><input type="checkbox" id="clickicon"> shelf icon</label>
+        <label><input type="checkbox" id="clickpanel"> panel</label>
+        <label><input type="checkbox" id="clickbar"> bar</label></p>
+      <p>Select components to be shown automatically:
+        <label class="cros"><input type="checkbox" id="autoicon"> shelf icon</label>
+        <label><input type="checkbox" id="autopanel"> panel</label>
+        <label id="permissions"><input type="checkbox" id="autobar"> bar</label></p>
+      <p>Select the size of text:
+        <label><input type="number" min="0" max="999" id="panelsize"> panel</label>
+        <label><input type="number" min="0" max="999" id="barsize"> bar</label></p>
+      <p>Select the colors of text:
+        <label><input type="color" id="browsertextcolor"> <span class="cros">browser </span>icon</label>
+        <label class="cros"><input type="color" id="shelftextcolor"> shelf icon</label>
+        <label><input type="color" id="paneltextcolor"> panel</label>
+        <label><input type="color" id="bartextcolor"> bar</label></p>
+      <p>Select the background colors:
+        <label><input type="color" id="browserbackground"> <span class="cros">browser </span>icon</label>
+        <label class="cros"><input type="color" id="shelfbackground"> shelf icon</label>
+        <label><input type="color" id="panelbackground"> panel</label>
+        <label><input type="color" id="barbackground"> bar</label></p>
+      <p>Select the seconds between measurements:
+        <label><input type="number" step="0.1" min="0" max="99" id="browserinterval"> <span class="cros">browser </span>icon</label>
+        <label class="cros"><input type="number" step="0.1" min="0" max="99" id="shelfinterval"> shelf icon</label>
+        <label><input type="number" step="0.1" min="0" max="99" id="panelinterval"> panel</label>
+        <label><input type="number" step="0.1" min="0" max="99" id="barinterval"> bar</label></p>
+      <p>Select the processor usage to create a notification over:
+        <label><input type="number" min="0" max="100" step="1" id="notify"> percent</label></p>
+      <p><input type="submit" value="Save"></p>
+      <p><input type="reset" value="Reset"></p>
+    </form>
+    <script src="options.js"></script>
+  </body>
+</html>
