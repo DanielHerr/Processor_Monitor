@@ -1,66 +1,35 @@
-
-// This code is the intellectual property of Daniel Stephen Herr.
+"use strict"
 
 var panel = 0;
 var iconinterval = 1000;
 var barinterval = 1000;
-var clickbar = true;
-var clickicon = true;
+var clickbar = false;
 var clickpanel = true;
 var autoinject = false;
 var textcolor = "#000000";
 var background = "#ffffff";
-//var notosans = false;
 var notified = false;
 var high = 100;
 var iconinfo = false;
 var barinfo = false;
-var canvas = document.createElement("canvas").getContext("2d");
+var canvas = (new OffscreenCanvas(19, 19)).getContext("2d", { willReadFrequently: true })
 
 chrome.runtime.onInstalled.addListener(function({ reason }) {
  if(reason == "install") {
   chrome.tabs.create({ url: "options.html" })
  } else if(reason == "update") {
-  if(chrome.runtime.getManifest().version == "11.0.5") {
+	let version = chrome.runtime.getManifest().version
+  if(version == "11.0.5") {
    chrome.notifications.create({ type: "basic", iconUrl: "icon.png",
     title: "Processor Monitor 11.0.5 Update", message: "Fixed usage calculation with hyperthreading disabled"
    })
-  }
+  } else if(version.startsWith("11.1")) {
+		chrome.notifications.create({ type: "basic", iconUrl: "icon.png",
+			title: "Processor Monitor 11.1 Update", message: "Migrated to Mv3. Future versions will remain supported on Mv2 via separate install."
+		 })
+	}
  }
-/*  if(details.reason == "install") {
-    chrome.fontSettings.getFontList(function(results) {
-      for (number = 0; number < results.length; number++) {
-        if (results[number].displayName == "Noto Sans") { notosans = true }
-      }
-      if (notosans === false) {
-        var xhr = new XMLHttpRequest();
-        xhr.responseType = "blob";
-        xhr.open("GET", "https://googledrive.com/host/0B9_ds1FPyRuZNUpaOFhfeXhjNXc/NotoSans.ttf");
-        xhr.onload = function() {
-          window.webkitRequestFileSystem(window.PERSISTENT, 410 * 1024, function(fileSystem) {
-            fileSystem.root.getFile("noto.ttf", { create: true }, function(fileEntry) {
-              fileEntry.createWriter(function(fileWriter) {
-                fileWriter.onwriteend = function() {
-                  document.head.insertAdjacentHTML("beforeend", "<style> @font-face { font-family: Noto; src: url(" + fileEntry.toURL() + "); } </style>");
-                };
-                fileWriter.write(xhr.response);
-        }) }) }) };
-        xhr.send();
-} }) }*/
-});
-
-/*window.addEventListener("load", function() {
-  chrome.fontSettings.getFontList(function(results) {
-    for (var number = 0; number < results.length; number++) {
-      if (results[number].displayName == "Noto Sans") { notosans = true }
-    }
-    if (notosans === false) {
-      window.webkitResolveLocalFileSystemURL("filesystem:chrome-extension://ihfhbddglfpbodgoalhmljdneofejjnd/persistent/noto.ttf", function(fileEntry) {
-        document.head.insertAdjacentHTML("beforeend", "<style> @font-face { font-family: Noto; src: url(" + fileEntry.toURL() + "); } </style>");
-}) } }) });*/
-
-chrome.windows.onRemoved.addListener(function(windowId) {
-  if (windowId == panel) { panel = 0 }
+ chrome.runtime.setUninstallURL("https://forms.danielherr.software/Uninstalled/Processor_Monitor")
 })
 
 function open() {
@@ -73,32 +42,30 @@ function open() {
 } } ) }
 
 function options() { chrome.storage.sync.get({
-  browserinterval: 1, barinterval: 1, clickbar: true, clickicon: true, clickpanel: true, high: 100,
-  browsertextcolor: "#000000", browserbackground: "#ffffff", autoicon: false, autopanel: false
+  browserinterval: 1, barinterval: 1, clickbar: false, clickpanel: true, high: 100,
+  browsertextcolor: "#000000", browserbackground: "#ffffff", autopanel: false
 }, function(items) {
     iconinterval = items.browserinterval * 1000;
     barinterval = items.barinterval * 1000;
     textcolor = items.browsertextcolor;
     background = items.browserbackground;
     clickbar = items.clickbar;
-    clickicon = items.clickicon;
     clickpanel = items.clickpanel;
     high = items.high
-    if (items.autoicon == true && panel == 0) { open()}
     if (items.autopanel == true) {
       chrome.runtime.sendMessage("kbilomlpmhhhaimaigidhnjijhiajbam", { launch: true })
 } } )}
 
-window.addEventListener("load", options);
+options()
 chrome.storage.onChanged.addListener(options);
 
 chrome.notifications.onClicked.addListener(function() {
   chrome.tabs.create({ url: "options.html"});
-});
+})
 
 chrome.notifications.onClosed.addListener(function() { notified = false });
 
-window.addEventListener("load", function infoicon() {
+function infoicon() {
   chrome.system.cpu.getInfo(function(info) {
     var totalusage = 0;
     let corecount = 0
@@ -153,13 +120,15 @@ window.addEventListener("load", function infoicon() {
     else if (high < 100 && notified === true) { chrome.notifications.clear("highcpu",
       function() { notified = false }
     ) }
-    chrome.browserAction.setTitle({ title: "Usage: " + percent + " % " + "Processors: " + info.numOfProcessors });
-    chrome.browserAction.setIcon({ imageData: canvas.getImageData(0, 0, 19, 19)});
+    chrome.action.setTitle({ title: "Usage: " + percent + " % " + "Processors: " + info.numOfProcessors });
+    chrome.action.setIcon({ imageData: canvas.getImageData(0, 0, 19, 19)});
   });
   setTimeout(infoicon, iconinterval);
-});
+}
+infoicon()
 
-window.addEventListener("load", function infobar() {
+function infobar() {
+	if(clickbar || autoinject) {
   chrome.system.cpu.getInfo(function(info) {
     chrome.tabs.query({ active: true }, function(tabs) {
     var totalusage = 0;
@@ -179,19 +148,21 @@ window.addEventListener("load", function infobar() {
     var percent = Math.round(totalusage / info.numOfProcessors);
     for (var number in tabs) {
       chrome.tabs.sendMessage(tabs[number].id, { usage: percent });
-  } }) });
+  } }) })
+	}
   setTimeout(infobar, barinterval);
-});
+}
+infobar()
 
 function inject() { if (autoinject === true) {
   chrome.tabs.query({}, function(tabs) {
     for (var number in tabs) {
-      chrome.tabs.executeScript(tabs[number].id, { file: "inject.js"});
+      chrome.scripting.executeScript({ target: { tabId: tabs[number].id }, files: [ "inject.js" ]})
 } }) }}
 
 function permissions() {
  chrome.permissions.contains({
-  /*permissions: ["tabs"],*/ origins: ["<all_urls>"] }, function(result) {
+  origins: ["<all_urls>"] }, function(result) {
     if (result) { autoinject = true;
     chrome.tabs.onCreated.addListener(inject);
     chrome.tabs.onUpdated.addListener(inject);
@@ -200,14 +171,13 @@ function permissions() {
     else { autoinject = false }
 } )}
 
-window.addEventListener("load", permissions);
-chrome.permissions.onAdded.addListener(permissions);
+permissions()
+chrome.permissions.onAdded.addListener(permissions)
 
-chrome.browserAction.onClicked.addListener(function() {
+chrome.action.onClicked.addListener(function(tab) {
   if (clickbar === true && autoinject === false) {
-    chrome.tabs.executeScript({ file: "inject.js"});
+    chrome.scripting.executeScript({ target: { tabId: tab.id }, files: [ "inject.js" ]})
   }
-  if (clickicon === true) { open()}
   if (clickpanel == true) {
 	  chrome.runtime.sendMessage("kbilomlpmhhhaimaigidhnjijhiajbam", { launch: true })
 } });
@@ -217,9 +187,8 @@ chrome.runtime.onMessageExternal.addListener(function(message, sender, sendRespo
     sendResponse({ opened: true })
 }) });
 
-chrome.contextMenus.create({ id: "shelf", title: "Enable Bottom Shelf Icon", contexts: ["browser_action"], onclick: function() {
-  chrome.tabs.create({ url: "chrome://flags/#enable-panels"})
-}});
-chrome.contextMenus.create({ id: "panel", title: "Install Floating Panel App", contexts: ["browser_action"], onclick: function() {
+chrome.contextMenus.create({ id: "panel", title: "Install Floating Panel App", contexts: ["browser_action"] })
+
+chrome.contextMenus.onClicked.addListener(function() {
   chrome.tabs.create({ url: "https://chrome.google.com/webstore/detail/kbilomlpmhhhaimaigidhnjijhiajbam"})
-}});
+})

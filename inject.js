@@ -1,4 +1,4 @@
-// This code is the intellectual property of Daniel Stephen Herr.
+"use strict"
 
 if (document.querySelector("#processormonitor")) {
   document.querySelector("#processormonitor").remove();
