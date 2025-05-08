@@ -17,19 +17,9 @@ var canvas = (new OffscreenCanvas(19, 19)).getContext("2d", { willReadFrequently
 chrome.runtime.onInstalled.addListener(function({ reason }) {
  if(reason == "install") {
   chrome.tabs.create({ url: "options.html" })
- } else if(reason == "update") {
-	let version = chrome.runtime.getManifest().version
-  if(version == "11.0.5") {
-   chrome.notifications.create({ type: "basic", iconUrl: "icon.png",
-    title: "Processor Monitor 11.0.5 Update", message: "Fixed usage calculation with hyperthreading disabled"
-   })
-  } else if(version.startsWith("11.1")) {
-		chrome.notifications.create({ type: "basic", iconUrl: "icon.png",
-			title: "Processor Monitor 11.1 Update", message: "Migrated to Mv3. Future versions will remain supported on Mv2 via separate install."
-		 })
-	}
  }
  chrome.runtime.setUninstallURL("https://forms.danielherr.software/Uninstalled/Processor_Monitor")
+ chrome.contextMenus.create({ id: "panel", title: "Install Floating Panel App", contexts: ["browser_action"] })
 })
 
 function open() {
@@ -187,8 +177,8 @@ chrome.runtime.onMessageExternal.addListener(function(message, sender, sendRespo
     sendResponse({ opened: true })
 }) });
 
-chrome.contextMenus.create({ id: "panel", title: "Install Floating Panel App", contexts: ["browser_action"] })
-
 chrome.contextMenus.onClicked.addListener(function() {
   chrome.tabs.create({ url: "https://chrome.google.com/webstore/detail/kbilomlpmhhhaimaigidhnjijhiajbam"})
 })
+
+chrome.runtime.onStartup.addListener(function() {}) // dummy to fix extension not loading on startup
