@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Processor Monitor</title>
+
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+		<link rel="stylesheet" href="/common/common.css">
+		<link rel="stylesheet" href="popup.css">
+
+		<script src="/polyfills/promisify_chrome.js" defer></script>
+		<script src="/common/settings.js" defer></script>
+
+		<script type="module" src="/common/theme.mjs" defer></script>
+		<script nomodule src="/common/theme.js" defer></script>
+
+		<script src="/common/dark.js" defer></script>
+
+		<script src="/common/cpu.js" defer></script>
+		<script src="popup.js" defer></script>
+	</head>
+	<body>
+		<h1>Processor Monitor</h1>
+
+		<label>Average Core Utilization: <output id="averageusagetext">88%</output></label>
+		<meter id="averageusagemeter" min="0" max="100" low="50" high="75" optimum="0"></meter>
+
+		<label>Highest Core Utilization: <output id="highusagetext">88%</output></label>
+		<meter id="highusagemeter" min="0" max="100" low="50" high="75" optimum="0"></meter>
+
+		<details>
+			<summary>Individual Core Utilization %</summary>
+			<ul id="coresusage">
+				<li><meter min="0" max="100" low="50" high="75" optimum="0"></meter><output></output></li>
+			</ul>
+		</details>
+
+		<label>Temperature: <output id="temperature">°C</output></label>
+
+		<label>Logical Core Count: <output id="corecount"></output></label>
+
+		<label>Model: <output id="cpumodel"></output></label>
+	</body>
+</html>

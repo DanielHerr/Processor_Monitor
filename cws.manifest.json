@@ -1,0 +1,16 @@
+{
+	"manifest_version": 3,
+	"name": "Processor Monitor",
+	"version": "12.0.3.2",
+	"version_name": "12.0 (2026.3.12, Mv3, Chrome 109+)",
+	"description": "Displays CPU Usage Information",
+	"author": "Daniel Herr",
+	"homepage_url": "https://danielherr.software/Processor_Monitor",
+	"offline_enabled": true,
+	"icons": { "128": "icon.png" },
+	"action": { "default_popup": "popup/popup.html" },
+	"background": { "service_worker": "background/background.js" },
+	"options_page": "Settings/Settings.html",
+	"permissions": [ "system.cpu", "storage", "notifications", "system.display", "contextMenus", "offscreen" ],
+	"minimum_chrome_version": "109"
+}

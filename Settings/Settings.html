@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Processor Monitor Settings</title>
+
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+		<link rel="stylesheet" href="/common/common.css">
+		<link rel="stylesheet" href="settings.css">
+
+		<script src="/polyfills/promisify_chrome.js" defer></script>
+		<script src="/common/settings.js" defer></script>
+
+		<script type="module" src="/common/theme.mjs"></script>
+		<script nomodule src="/common/theme.js" defer></script>
+
+		<script src="/common/dark.js" defer></script>
+
+		<script src="settings.js" defer></script>
+	</head>
+	<body>
+		<h1>Processor Monitor Settings</h1>
+		<form id="settingsform">
+			<fieldset disabled>
+				<legend>Main Functionality</legend>
+				<label>Numeric Refresh Interval:
+					<input type="number" name="numeric_interval" value="2" min="0.1" max="25" step="0.1" placeholder="0.1 - 25" required>
+				seconds</label>
+				<br>
+				<label>Graphical Refresh Interval:
+					<input type="number" name="graphical_interval" value="1" min="0.1" max="25" step="0.1" placeholder="0.1 - 25" required>
+				seconds</label>
+				<br>
+				<fieldset>
+					<legend>Icon Core Utilization Measure:</legend>
+ 				<label><input type="radio" name="primary_measure" value="highest">Highest</label>
+ 				<label><input type="radio" name="primary_measure" value="average" checked>Average</label>
+				</fieldset>
+				<!--<br>
+				<label>
+					<input type="checkbox" name="utilization_notification">Show Current CPU Utilization Notification
+				</label>-->
+			</fieldset>
+			<fieldset name="light" disabled>
+				<legend>
+					<label><input type="radio" name="theme" value="light" checked disabled hidden>Light Theme</label>
+				</legend>
+				<label>Icon Text Color: 
+					<input type="color" name="medium_light_icon_text_color" value="#000000" list>
+				</label>
+				<br>
+				<label>Icon Background:
+					<input type="color" name="medium_light_icon_background" value="#ffffff" list>
+				</label>
+				<br>
+				<label>Icon Transparency:
+					<input type="range" name="light_icon_transparency" value="0" min="0" max="1" step="0.01">
+				</label>
+			</fieldset>
+			<fieldset name="dark" disabled>
+				<legend>
+					<label><input type="radio" name="theme" value="dark" disabled hidden>Dark Theme</label>
+				</legend>
+				<label>Icon Text Color:
+					<input type="color" name="medium_dark_icon_text_color" value="#ffffff" list>
+				</label>
+				<br>
+				<label>Icon Background:
+					<input type="color" name="medium_dark_icon_background" value="#000000" list>
+				</label>
+				<br>
+				<label>Icon Transparency:
+					<input type="range" name="dark_icon_transparency" value="0" min="0" max="1" step="0.01">
+				</label>
+			</fieldset>
+			<fieldset name="general" disabled>
+				<legend>General Behavior</legend>
+				<label>
+					<input type="checkbox" name="sync_settings" checked>Synchronize Settings Across Devices
+				</label>
+				<br>
+				<label>
+					<input type="checkbox" name="update_notifications" checked>Show Extension Update Notifications
+				</label>
+				<!--<label><input type="checkbox" name="stats">Collect anonymous performance and usage statistics</label>-->
+				<br>
+				<button type="reset">Reset Settings to Defaults</button>
+			</fieldset>
+		</form>
+		<nav>
+			<a href="/Changelog/Changelog.html">Changelog</a>
+			<a href="/License.html">License (GPLv3)</a>
+			<a href="https://danielherr.software/Support">Support</a>
+		</nav>
+		<dialog id="error_dialog">
+			<h2>Processor Monitor Error</h2>
+			<span id="error_message"></span>
+			<a href="https://danielherr.software/Support">Get Support</a>
+			<form method="dialog">
+				<button type="submit">Close</button>
+			</form>
+		</dialog>
+	</body>
+</html>

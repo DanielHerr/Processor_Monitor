@@ -1,0 +1,74 @@
+body {
+	width: max-content;
+	font-size: 0.9em;
+}
+h1 {
+	font-size: 1.5em;
+	text-align: center;
+	margin-top: 0;
+	margin-bottom: 0.4em;
+	padding-bottom: 0.2em;
+	border-bottom-style: solid;
+	border-bottom-color: rgb(223 223 223);
+	border-bottom-width: thin;
+}
+label {
+ display: block;
+ cursor: auto;
+}
+
+meter {
+	transition: width var(--interval, 1s);
+}
+meter::-webkit-meter-inner-element {
+	transition: inherit;
+}
+meter::-webkit-meter-bar {
+	transition: inherit;
+}
+meter::-webkit-meter-optimum-value, meter::-webkit-meter-suboptimum-value, meter::-webkit-meter-even-less-good-value {
+ transition: inherit;
+}
+
+summary {
+	cursor: s-resize;
+}
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+li {
+ display: flex;
+ margin-bottom: 0.5em;
+ gap: 0.25em;
+ align-items: flex-end;
+}
+
+label output {
+	float: right;
+	margin-left: 0.5em;
+}
+
+label + meter {
+	display: block;
+	width: auto;
+	margin-top: 0.1em;
+	margin-bottom: 0.5em;
+}
+
+li meter {
+	flex-grow: 1;
+}
+li output {
+ line-height: 1;
+}
+
+details ~ label {
+ margin-top: 0.5em;
+}
+
+@media(prefers-color-scheme: dark) {
+ h1 {
+  border-bottom-color: rgb(64 64 64);
+} }

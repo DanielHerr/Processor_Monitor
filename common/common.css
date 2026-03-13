@@ -1,0 +1,61 @@
+html {
+	color-scheme: light dark;
+}
+* {
+	box-sizing: border-box;
+}
+[hidden] {
+ display: none !important;
+}
+
+body {
+	border-color: rgb(128 128 128);
+	font-size: 1em;
+}
+
+	/* Chrome 76 - 80 Windows Mac */
+	@media(prefers-color-scheme: dark) {
+		html {
+			color: white;
+			background: black;
+		}
+		input {
+			filter: invert(1);
+			outline-color: rgb(178, 111, 1); /* inversion from orange to default blue focus outline */
+		}
+		input::-webkit-color-swatch {
+			filter: invert(1); /* double invert swaps back to uninverted */
+		}
+	}
+
+	/* Chrome 56 - 76 Windows Mac -==- Chrome 56 - 80 Linux CrOS */
+	html.dark {
+		color: white;
+		background: black;
+	}
+	html.dark input {
+		filter: invert(1);
+		outline-color: rgb(178, 111, 1);
+	}
+	html.dark input::-webkit-color-swatch {
+		filter: invert(1);
+	}
+	
+	
+/* Chrome 81 - 114 Linux -==- Chrome OS 81 - 104 */
+@supports(color-scheme: dark light) {
+	html.light {
+		color-scheme: light;
+	}
+	html.dark {
+		color-scheme: dark;
+		color: initial;
+		background: initial;
+  }
+  input, html.dark input {
+		filter: none;
+  }
+  html.dark input::-webkit-color-swatch, input::-webkit-color-swatch {
+    filter: none;
+  }
+}

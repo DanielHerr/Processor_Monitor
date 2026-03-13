@@ -1,0 +1,17 @@
+@font-face {
+	font-family: "Inconsolata";
+	src: url("Inconsolata_ExtraCondensed_Regular_Numeric.ttf");
+	font-stretch: extra-condensed;
+}
+span {
+	font-family: "Inconsolata";
+}
+canvas {
+	width: 256px;
+	height: 256px;
+	background: blue;
+}
+
+html {
+	color-scheme: light dark;
+}

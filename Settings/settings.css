@@ -1,0 +1,67 @@
+body {
+ font-size: medium;
+ width: fit-content;
+ margin: auto;
+ line-height: 2;
+}
+h1 {
+	text-align: center;
+	margin-top: 0;
+	margin-bottom: 0.5em;
+	border-bottom: medium solid;
+	border-bottom-color: inherit;
+}
+form {
+ text-align: center;
+ border-color: inherit;
+}
+fieldset {
+ width: fit-content;
+ margin-bottom: 1em;
+ margin-left: auto;
+ margin-right: auto;
+ text-align: left;
+ border-color: inherit;
+ border-style: solid;
+ border-width: 1px;
+}
+legend {
+ text-align: center;
+ padding-left: 0.5em;
+ padding-right: 0.5em;
+}
+label {
+ border-color: inherit;
+}
+input, button {
+ font-size: medium;
+}
+nav {
+ text-align: center;
+}
+
+fieldset fieldset {
+	display: inline;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+fieldset fieldset legend {
+	padding: 0;
+	float: left;
+}
+
+[name="light"] {
+ float: left;
+ margin-right: 1em;
+}
+[name="dark"] {
+ float: right;
+}
+[name="general"] {
+ clear: both;
+}
+
+input:invalid {
+ border-color: red;
+}

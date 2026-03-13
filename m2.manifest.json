@@ -1,0 +1,18 @@
+{
+	"manifest_version": 2,
+	"name": "Processor Monitor",
+	"version": "12.0.2.0",
+	"version_name": "12.0 (2026.3.12, Mv2, Chromium 56+)",
+	"description": "Displays CPU Usage Information",
+	"author": "Daniel Herr",
+	"homepage_url": "https://danielherr.software/Processor_Monitor",
+	"offline_enabled": true,
+	"icons": { "128": "icon.png" },
+	"browser_action": { "default_popup": "popup/popup.html" },
+	"background": { "page": "background/background.html", "persistent": true },
+	"options_page": "Settings/Settings.html",
+	"permissions": [ "system.cpu", "storage", "notifications", "system.display", "contextMenus" ],
+	"update_url": "https://packages.danielherr.software/CRX/updates.xml",
+	"minimum_chrome_version": "56",
+	"minimum_opera_version": "43"
+}

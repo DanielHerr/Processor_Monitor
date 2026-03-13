@@ -1,0 +1,51 @@
+min extension v32, 2014.1
+todo support panels on Chrome OS?
+panels flag removed for extensions in v54 (2016)
+panels added for apps in v45 (2015), removed in v69 (2018)
+app panels don't support <link rel=icon>?
+chrome.app.window.setIcon requires dev channel
+
+video pip added in v69, use as alternative?
+document pip added in v116, check OS interactions
+
+Chrome OS:
+doc pip shows as window in overview but not on shelf
+video pip shows as floating pane always
+
+Windows 11:
+video pip shows as window in overview but not on taskbar
+doc pip shows as window
+
+Gnome:
+
+
+
+
+Chrome renders extension action icon at 16px or 32px, https://crbug.com/325257253
+Chrome OS < 50, Linux < 51, Mac < 52, Windows < 53, use 19px based icons
+use 16px if DPR <= 1.2, 32px if DPR > 1.2
+
+devicePixelRatio provides primary display only
+system.display provides DPR for all displays on Chrome OS
+on other platforms, system.display indicates how many displays present
+if on CrOS or single display, use DPR
+if not CrOS and multiple displays, use 32px
+if MV3 < 109, DRP only available using system.display on Chrome OS
+if MV3 >= 109, DPR available from offscreen document on non CrOS
+
+
+offscreen dpr incorrect inside crostini, always 1
+
+Chrome, Edge renders at 16 or 32
+<= 19.2 (1.2000000476837158) => 16
+>= 19.36 (1.2100000381469727) => 32
+
+Opera renders at 16, 20, 24, 32, 40
+<= 19.2 (1.2000000476837158) => 16
+19.36 (1.2100000381469727) => 20
+23 (1.4375) => 20
+23.4 (1.462499976158142) => 24
+27.12 (1.6949999332427979) => 24
+27.36 (1.7100000381469727) => 32
+35.2 (2.200000047683716) => 32
+>= 35.52 (2.2200000286102295) => 40
