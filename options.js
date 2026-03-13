@@ -83,3 +83,11 @@ document.querySelector("form").addEventListener("submit", function(event) {
       interval: document.querySelector("#panelinterval").value,
       size: document.querySelector("#panelsize").value
 }) } });
+
+
+if(navigator.userAgentData) { // Chromium 90
+	let version = navigator.userAgentData.brands.find(entry => entry.brand == "Chromium").version
+	eol.hidden = version >= 109
+} else {
+	eol.hidden = false
+}

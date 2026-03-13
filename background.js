@@ -14,10 +14,7 @@ var iconinfo = false;
 var barinfo = false;
 var canvas = (new OffscreenCanvas(19, 19)).getContext("2d", { willReadFrequently: true })
 
-chrome.runtime.onInstalled.addListener(function({ reason }) {
- if(reason == "install") {
-  chrome.tabs.create({ url: "options.html" })
- }
+chrome.runtime.onInstalled.addListener(function() {
  chrome.runtime.setUninstallURL("https://forms.danielherr.software/Uninstalled/Processor_Monitor")
  chrome.contextMenus.create({ id: "panel", title: "Install Floating Panel App", contexts: ["browser_action"] })
 })
@@ -49,8 +46,16 @@ function options() { chrome.storage.sync.get({
 options()
 chrome.storage.onChanged.addListener(options);
 
-chrome.notifications.onClicked.addListener(function() {
-  chrome.tabs.create({ url: "options.html"});
+chrome.notifications.onClicked.addListener(function(notification) {
+	if(notification == "eol") {
+		chrome.tabs.create({ url: "https://danielherr.software/Processor_Monitor" })
+	} else {
+	  chrome.tabs.create({ url: "options.html"})
+	}
+})
+
+chrome.notifications.onButtonClicked.addListener(function() {
+	chrome.tabs.create({ url: "https://danielherr.software/Processor_Monitor" })
 })
 
 chrome.notifications.onClosed.addListener(function() { notified = false });
@@ -182,3 +187,18 @@ chrome.contextMenus.onClicked.addListener(function() {
 })
 
 chrome.runtime.onStartup.addListener(function() {}) // dummy to fix extension not loading on startup
+
+let eol = true
+if(navigator.userAgentData) { // Chromium 90
+	let version = navigator.userAgentData.brands.find(entry => entry.brand == "Chromium").version
+	eol = version < 109
+}
+if(eol) {
+	chrome.notifications.create("eol", {
+		type: "basic",
+		title: "Processor Monitor Action Required",
+		iconUrl: "/icon.png",
+		message: "Your current installation of Processor Monitor will no longer be updated. To continue receiving updates, install Processor Monitor from its website or upgrade to a current web browser.",
+		buttons: [{ title: "Upgrade" }]
+	})
+}
